@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 //const ENDPOINT_PATH = "http://localhost:8000/";
 //const ENDPOINT_PATH = "http://192.168.1.34:8000/";
 //const ENDPOINT_PATH = "http://127.0.0.1:8000/";
+//const ENDPOINT_PATH = "https://serene-chamber-49517.herokuapp.com/";
 const ENDPOINT_PATH = "https://proyecto1libi.herokuapp.com//";
 
 export default {
@@ -48,6 +49,7 @@ export default {
 
   login(username, password) {
     const user = { username, password };
+    console.log('auth login axios.post', ENDPOINT_PATH + "login/", user)
     return axios.post(ENDPOINT_PATH + "login/", user);
   },
 
