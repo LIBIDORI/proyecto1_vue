@@ -6,7 +6,7 @@
     <router-view/>
   </section>
   <footer class="footer">
-      <p class="has-text-centered">Francis</p>
+    <p class="has-text-centered">Francis</p>
   </footer>
   </div>
 </template>
