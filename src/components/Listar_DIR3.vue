@@ -33,7 +33,7 @@
         <div class="card col-sm-9">
             <div class="card-header btn-toolbar row justify-content-between" role="group" aria-label="">
                 <h3 class="col-sm-6">
-                    {{count}} Unidades
+                    {{respuesta.count}} Entidades DIR3
                 </h3>
                 <button type="button" class="btn btn-outline-success col-sm-1" v-show="!isOpcionesBusquedaVisible" @click="showOpcionesBusqueda" id="show-opciones-busqueda">Buscar</button>
             </div>
@@ -52,7 +52,7 @@
                     </thead>
                     <tbody>
 <!--                        <tr class="align-middle" v-for="unidad in unidades" :key="unidad.codigo" v-on:click="consultar(unidad.codigo)">-->
-                        <tr class="align-middle" v-for="entidad in resultados" :key="entidad.C_ID_UD_ORGANICA">
+                        <tr class="align-middle" v-for="entidad in respuesta.results" :key="entidad.C_ID_UD_ORGANICA">
                             <td class="col-sm-1 text-center" id="C_ID_UD_ORGANICA">{{entidad.C_ID_UD_ORGANICA}}</td>
                             <td class="col-sm-5" id="C_DNM_UD_ORGANICA">{{entidad.C_DNM_UD_ORGANICA}}</td>
                             <td class="col-sm-2 text-center" id="NIF_CIF">{{entidad.NIF_CIF}}</td>
@@ -103,6 +103,7 @@
 <script>
 import Filtrado_unidades from "./Filtrado_unidades.vue";
 import Filtrado_general from "./Filtrado_general.vue";
+import auth from "@/logic/auth";
 
 const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
 //const url_proyecto = 'http://localhost:8000/proyecto1/';
@@ -117,6 +118,12 @@ export default{
 
     data(){
         return{
+            respuesta: {
+                count:0,
+                next:'',
+                previous:'',
+                results:[],
+            },
             resultados:[],
             count:0,
             next:'',
@@ -124,8 +131,9 @@ export default{
             currentPage: 1,
             numPaginas: 0,
             operador_busqueda:"__contains",
-            url: url_proyecto + 'DIR3/?',
+//            url: url_proyecto + 'DIR3/?',
             url_base : url_proyecto + 'DIR3/?',
+            listado: 'proyecto1/DIR3/?',
             isModalVisible: false,
             isOpcionesBusquedaVisible: false,
             camposDeBusqueda: [
@@ -136,12 +144,10 @@ export default{
     },
 
     created:function(){
-        this.obtener_datos_listado(this.url);
+        this.obtener_datos_listado(this.listado);
     },
 
     methods:{
-        //http://localhost:8000/entidads/entidads/
-
         showOpcionesBusqueda(){
             this.isOpcionesBusquedaVisible = !this.isOpcionesBusquedaVisible;
         },
@@ -207,10 +213,37 @@ export default{
 
         iraPagina(pagina){
             this.currentPage = pagina;
-            this.obtener_datos_listado(this.url+'page='+this.currentPage);
+//          this.obtener_datos_listado(this.url+'page='+this.currentPage);
+            this.obtener_datos_listado(this.listado+'page='+pagina);
         },
 
-        obtener_datos_listado(url){
+        async obtener_datos_listado(listado){
+
+            try {
+                const respuesta = await auth.consulta(listado);
+                this.respuesta=respuesta.data;
+                this.numPaginas = Math.trunc(this.respuesta.count / 20)+1;
+            } 
+            catch (error) {
+                this.error=true;
+                this.error_msg=error;
+                if (error.response) {
+                  // The request was made and the server responded with a status code
+                  // that falls out of the range of 2xx
+                  this.error_msg=error.response.data['error'];
+                } else if (error.request) {
+                  // The request was made but no response was received
+                  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                  // http.ClientRequest in node.js
+                } else {
+                  // Something happened in setting up the request that triggered an Error
+                }
+                console.log(error.config);
+              }     
+
+        },
+
+        obtener_datos_listado2(url){
 
             console.log ("fetch ", url)
             fetch(url)

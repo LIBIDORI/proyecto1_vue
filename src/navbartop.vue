@@ -60,39 +60,38 @@ export default {
     },
 
     computed:{
-      userLogged(){
-        var userLogged=auth.getUserLogged()
-        if (userLogged == undefined){
-          auth.limpiarCookie();
-        }else{
-          userLogged = JSON.parse(auth.getUserLogged())
-        }
-        return userLogged;
-      },
+        userLogged(){
+            var userLogged=JSON.parse(auth.getUserLogged())
+            console.log ('Usuario logueado ', userLogged)
+            return userLogged;
+        },
     },
 
     methods:{
         async Logout(){
             try {
-              const token = { 'token': this.userLogged.token};
-              await auth.logout(token);
-              auth.limpiarCookie();
-              this.$router.go(this.$router.push("/login"))
+                const token = { 'token': this.userLogged.token};
+                console.log('token' ,token)
+                await auth.logout(token);
+                auth.limpiarCookie();
+                this.$router.go(this.$router.push("/login"))
             } catch (error) {
                 this.error=true;
                 this.error_msg=error;
+                console.log('error, ', error)
                 if (error.response) {
                   // The request was made and the server responded with a status code
                   // that falls out of the range of 2xx
-                  this.error_msg=error.response.data['error'];
+                    this.error_msg=error.response.data['error'];
+                    console.log('error.response.data, ', error.response.data)
                 } else if (error.request) {
                   // The request was made but no response was received
                   // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                   // http.ClientRequest in node.js
-                  console.log(error.request);
+                    console.log(error.request);
                 } else {
                   // Something happened in setting up the request that triggered an Error
-                  console.log('Error', error.message);
+                    console.log('Error', error.message);
                 }
                 console.log(error.config);
               }     

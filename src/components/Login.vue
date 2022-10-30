@@ -52,24 +52,24 @@ export default{
     methods:{
         async Identificarse(){
             try {
-              const response = await auth.login(this.username,this.password);
-              const user = response.data;
-              auth.setUserLogged(JSON.stringify(user));
-              this.$router.go(this.$router.push('/'))
+                const response = await auth.login(this.username,this.password);
+                const user = response.data;
+                auth.setUserLogged(JSON.stringify(user));
+                this.$router.go(this.$router.push('/'))
 //              this.$router.go(this.$router.currentRoute)
             } catch (error) {
                 this.error=true;
                 this.error_msg=error;
                 if (error.response) {
-                  // The request was made and the server responded with a status code
-                  // that falls out of the range of 2xx
-                  this.error_msg=error.response.data['error'];
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    this.error_msg=error.response.data['error'];
                 } else if (error.request) {
-                  // The request was made but no response was received
-                  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                  // http.ClientRequest in node.js
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
                 } else {
-                  // Something happened in setting up the request that triggered an Error
+                    // Something happened in setting up the request that triggered an Error
                 }
                 console.log(error.config);
               }     

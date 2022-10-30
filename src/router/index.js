@@ -5,7 +5,7 @@ import About from '../components/About.vue'
 import Contact from '../components/Contact.vue'
 
 import Login from '../components/Login.vue'
-import Logout from '../components/Logout.vue'
+//import Logout from '../components/Logout.vue'
 import Register from '../components/Register.vue'
 
 import Listar from '../components/Listar_DIR3.vue'
@@ -48,11 +48,11 @@ const routes = [
     name: 'Login',
     component: Login
   },
-  {
-    path: '/logout',
-    name: 'Logout',
-    component: Logout
-  },
+  //{
+  //  path: '/logout',
+  //  name: 'Logout',
+  //  component: Logout
+  //},
   {
     path: '/register',
     name: 'Register',
