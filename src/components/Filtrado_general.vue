@@ -103,7 +103,6 @@ export default {
     methods:{
 
         comprobarCamposInformados(){
-
             var index
             this.isCamposInformados = false;
             for (index in this.criterios_de_busqueda){
@@ -124,11 +123,9 @@ export default {
         },
 
         filtrarPuestos(){
-
             const response = {
                 'criterios_de_busqueda' : this.criterios_de_busqueda
             }
-
           this.$emit('close', response)
         },
     },

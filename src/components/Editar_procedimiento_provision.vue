@@ -55,7 +55,8 @@
     </div>
 </template>
 <script>
-const url_proyecto = 'http://localhost:8000/proyecto1/';
+//const url_proyecto = 'http://localhost:8000/proyecto1/';
+const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
 export default{
 
     data(){
