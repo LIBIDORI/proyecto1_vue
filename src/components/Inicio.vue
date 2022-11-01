@@ -1,9 +1,11 @@
 <template>
-  <div class="hello">
-    <h1 v-if="userLogged">Hola {{userLogged}} {{ msg }}</h1>
-    <h1 v-else>{{ msg }}</h1>
+  <div>
+    <div class="hello">
+      <h1 v-if="userLogged">Hola {{userLogged}} {{ msg }}</h1>
+      <h1 v-else>{{ msg }}</h1>
+    </div>
+    <User/>
   </div>
-  <User/>
 </template>
 
 <script>

@@ -1,119 +1,120 @@
 <template>
+    <div>
+        <Teleport to="body">
+            <!-- use the modal component, pass in the prop -->
+            <Filtrado_unidades v-show="isModalVisible" @close="closeModal">
+            <template #header>
+                <h3>Se han encontrado {{count}} unidades</h3>
+            </template>
+            </Filtrado_unidades>
+        </Teleport>
 
-    <Teleport to="body">
-        <!-- use the modal component, pass in the prop -->
-        <Filtrado_unidades v-show="isModalVisible" @close="closeModal">
-        <template #header>
-            <h3>Se han encontrado {{count}} unidades</h3>
-        </template>
-        </Filtrado_unidades>
-    </Teleport>
-
-    <div class="form-group row">
-        <div class="card col-sm-3" v-show="isOpcionesBusquedaVisible">
-            <div class="card-header btn-toolbar justify-content-between align-items-center" role="group" aria-label="">
-                <br/>
-                <h4>
-                    Opciones de búsqueda
-                </h4>
-                <button type="button" class="close btn btn-outline-success" @click="showOpcionesBusqueda" aria-label="Close">
-                    <span aria-hidden="true">x</span>
-                </button>
-            </div>
-            <br>
-            <div class="form-group">
-                <div class="form-control">
-                    <button type="button" class="btn btn-outline-success" @click="showModal" id="show-modal">Seleccionar unidades</button>
+        <div class="form-group row">
+            <div class="card col-sm-3" v-show="isOpcionesBusquedaVisible">
+                <div class="card-header btn-toolbar justify-content-between align-items-center" role="group" aria-label="">
+                    <br/>
+                    <h4>
+                        Opciones de búsqueda
+                    </h4>
+                    <button type="button" class="close btn btn-outline-success" @click="showOpcionesBusqueda" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
                 </div>
                 <br>
-                <Filtrado_general :camposDeBusqueda="camposDeBusqueda" @close="filtrar"></Filtrado_general>
+                <div class="form-group">
+                    <div class="form-control">
+                        <button type="button" class="btn btn-outline-success" @click="showModal" id="show-modal">Seleccionar unidades</button>
+                    </div>
+                    <br>
+                    <Filtrado_general :camposDeBusqueda="camposDeBusqueda" @close="filtrar"></Filtrado_general>
+                </div>
             </div>
-        </div>
 
-        <div class="card col-sm-9">
-            <div class="card-header btn-toolbar row justify-content-between" role="group" aria-label="">
-                <h3 class="col-sm-6">
-                    {{count}} Procesos selectivos
-                </h3>
-                <button type="button" class="btn btn-outline-success col-sm-1" v-show="!isOpcionesBusquedaVisible" @click="showOpcionesBusqueda" id="show-opciones-busqueda">Buscar</button>
-            </div>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th class="col-sm-4">
-                                <p class="cabecera">Entidad</p>
-                                <p class="cabecera">Cuerpo</p>
-                                <p class="cabecera">Fecha de inicio</p>
-                            </th>
-                            <th class="col-sm-4">
-                                <p class="cabecera">Escala</p>
-                                <p class="cabecera">Subescala</p>
-                                <p class="cabecera">Gr./Subgr.</p>
-                            </th>
-                            <th class="col-sm-3">
-                                <p class="cabecera">Sistema</p>
-                                <p class="cabecera">Turno</p>
-                                <p class="cabecera">Núm. puestos</p>
-                            </th>
-                            <th class="col-sm-1 text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="align-middle" v-for="proceso_selectivo in resultados" :key="proceso_selectivo.id">
-                            <td class="col-sm-4">
-                                <p>{{proceso_selectivo.entidad.C_DNM_UD_ORGANICA}}</p>
-                                <p>{{proceso_selectivo.cuerpo}}</p>
-                                <p>{{proceso_selectivo.finicio}}</p>
-                            </td>
-                            <td class="col-sm-4">
-                                <p>{{proceso_selectivo.get_escala_display}}</p>
-                                <p>{{proceso_selectivo.get_subescala_display}}</p>
-                                <p>{{proceso_selectivo.get_gruposubgrupo_display}}</p>
-                            </td>
-                            <td class="col-sm-3">
-                                <p>{{proceso_selectivo.get_sistema_display}}</p>
-                                <p>{{proceso_selectivo.get_turno_display}}</p>
-                                <p>{{proceso_selectivo.npuestos}}</p>
-                            </td>
-                            <td class="col-sm-1 text-center" id="acciones">
-                                <div class="btn-group" role="group" aria-label="">
-                                    <router-link :to="{name:'Consultar_proceso_selectivo',params:{id:proceso_selectivo.id}}" class="btn btn-info">Consultar</router-link>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-foot ">
-                <div class="btn-toolbar row justify-content-between" role="group" aria-label="">
-                    <div class="form-group row align-items-center justify-content-center">
-                        <div class="btn-group col-sm-1" role="group">
-                            <button type="button" class="page-link" :disabled="previous == null" @click="iraPagina(1)">Primera  </button>
-                        </div>
-                        <div class="btn-group col-sm-1" role="group">
-                            <button type="button" class="page-link" :disabled="previous == null" @click="iraPagina(currentPage-1)">Anterior </button>
-                        </div>
-                        <div class="form-group row col-sm-4 align-items-center justify-content-center" role="group">
-                            <div class="col-sm-3">Página</div>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" name="num_pagina" id="num_pagina" v-model="currentPage" aria-describedby="helpId" placeholder="Número de página">
-                            </div>
-                            <div class="col-sm-3">de {{numPaginas}}</div>
+            <div class="card col-sm-9">
+                <div class="card-header btn-toolbar row justify-content-between" role="group" aria-label="">
+                    <h3 class="col-sm-6">
+                        {{count}} Procesos selectivos
+                    </h3>
+                    <button type="button" class="btn btn-outline-success col-sm-1" v-show="!isOpcionesBusquedaVisible" @click="showOpcionesBusqueda" id="show-opciones-busqueda">Buscar</button>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-4">
+                                    <p class="cabecera">Entidad</p>
+                                    <p class="cabecera">Cuerpo</p>
+                                    <p class="cabecera">Fecha de inicio</p>
+                                </th>
+                                <th class="col-sm-4">
+                                    <p class="cabecera">Escala</p>
+                                    <p class="cabecera">Subescala</p>
+                                    <p class="cabecera">Gr./Subgr.</p>
+                                </th>
+                                <th class="col-sm-3">
+                                    <p class="cabecera">Sistema</p>
+                                    <p class="cabecera">Turno</p>
+                                    <p class="cabecera">Núm. puestos</p>
+                                </th>
+                                <th class="col-sm-1 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="align-middle" v-for="proceso_selectivo in resultados" :key="proceso_selectivo.id">
+                                <td class="col-sm-4">
+                                    <p>{{proceso_selectivo.entidad.C_DNM_UD_ORGANICA}}</p>
+                                    <p>{{proceso_selectivo.cuerpo}}</p>
+                                    <p>{{proceso_selectivo.finicio}}</p>
+                                </td>
+                                <td class="col-sm-4">
+                                    <p>{{proceso_selectivo.get_escala_display}}</p>
+                                    <p>{{proceso_selectivo.get_subescala_display}}</p>
+                                    <p>{{proceso_selectivo.get_gruposubgrupo_display}}</p>
+                                </td>
+                                <td class="col-sm-3">
+                                    <p>{{proceso_selectivo.get_sistema_display}}</p>
+                                    <p>{{proceso_selectivo.get_turno_display}}</p>
+                                    <p>{{proceso_selectivo.npuestos}}</p>
+                                </td>
+                                <td class="col-sm-1 text-center" id="acciones">
+                                    <div class="btn-group" role="group" aria-label="">
+                                        <router-link :to="{name:'Consultar_proceso_selectivo',params:{id:proceso_selectivo.id}}" class="btn btn-info">Consultar</router-link>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-foot ">
+                    <div class="btn-toolbar row justify-content-between" role="group" aria-label="">
+                        <div class="form-group row align-items-center justify-content-center">
                             <div class="btn-group col-sm-1" role="group">
-                                <button type="button" class="page-link" :disabled="next == null" @click="iraPagina(currentPage)">Ir</button>
+                                <button type="button" class="page-link" :disabled="previous == null" @click="iraPagina(1)">Primera  </button>
                             </div>
-                        </div>
-                        <div class="btn-group col-sm-1" role="group">
-                            <button type="button" class="page-link" :disabled="next == null" @click="iraPagina(currentPage+1)">Siguiente</button>
-                        </div>
-                        <div class="btn-group col-sm-1" role="group">
-                            <button type="button" class="page-link" :disabled="next == null" @click="iraPagina(numPaginas)">Última</button>
+                            <div class="btn-group col-sm-1" role="group">
+                                <button type="button" class="page-link" :disabled="previous == null" @click="iraPagina(currentPage-1)">Anterior </button>
+                            </div>
+                            <div class="form-group row col-sm-4 align-items-center justify-content-center" role="group">
+                                <div class="col-sm-3">Página</div>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="num_pagina" id="num_pagina" v-model="currentPage" aria-describedby="helpId" placeholder="Número de página">
+                                </div>
+                                <div class="col-sm-3">de {{numPaginas}}</div>
+                                <div class="btn-group col-sm-1" role="group">
+                                    <button type="button" class="page-link" :disabled="next == null" @click="iraPagina(currentPage)">Ir</button>
+                                </div>
+                            </div>
+                            <div class="btn-group col-sm-1" role="group">
+                                <button type="button" class="page-link" :disabled="next == null" @click="iraPagina(currentPage+1)">Siguiente</button>
+                            </div>
+                            <div class="btn-group col-sm-1" role="group">
+                                <button type="button" class="page-link" :disabled="next == null" @click="iraPagina(numPaginas)">Última</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
-            <br>
         </div>
     </div>
 </template>

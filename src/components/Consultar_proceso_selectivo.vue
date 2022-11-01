@@ -14,7 +14,7 @@
                         <th class="col-sm-5" colspan="3">Cuerpo</th>
                     </tr>
                     <tr>
-                        <td class="col-sm-5" colspan="2">{{this.proceso_selectivo.entidad.C_DNM_UD_ORGANICA}}({{this.proceso_selectivo.entidad.C_ID_UD_ORGANICA}})</td>
+                        <td class="col-sm-5" colspan="2">{{this.proceso_selectivo.entidad.C_DNM_UD_ORGANICA}} ({{this.proceso_selectivo.entidad.C_ID_UD_ORGANICA}})</td>
                         <td class="col-sm-5" colspan="3"><a :href="this.proceso_selectivo.web" target="_blank" rel="noopener">{{this.proceso_selectivo.cuerpo}}</a></td>
                     </tr>
                     <br>
@@ -71,8 +71,8 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="col-sm-1">Tipo</th>
-                            <th class="col-sm-4">Órgano</th>
+                            <th class="col-sm-3">Tipo</th>
+                            <th class="col-sm-3">Órgano</th>
                             <th class="col-sm-1">Fecha Publicación</th>
                             <th class="col-sm-1">Fecha</th>
                             <th class="col-sm-3">Medio</th>
@@ -81,8 +81,8 @@
                     </thead>
                     <tbody >
                         <tr v-for="disposicion in disposiciones" :key="disposicion.id">
-                            <td class="col-sm-1"><a :href="disposicion.disposicion.url_publicacion" target="_blank" rel="noopener">{{disposicion.tipo}}</a></td>
-                            <td class="col-sm-4">{{disposicion.disposicion.organoDIR3.C_DNM_UD_ORGANICA}}</td>
+                            <td class="col-sm-3"><a :href="disposicion.disposicion.url_publicacion" target="_blank" rel="noopener">{{disposicion.tipo}}</a></td>
+                            <td class="col-sm-3">{{disposicion.disposicion.organoDIR3.C_DNM_UD_ORGANICA}}</td>
                             <td class="col-sm-1">{{disposicion.disposicion.fecha_publicacion}}</td>
                             <td class="col-sm-1">{{disposicion.disposicion.fecha}}</td>
                             <td class="col-sm-3">{{disposicion.disposicion.medio_publicacion}}</td>

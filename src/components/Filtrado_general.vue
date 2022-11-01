@@ -1,4 +1,5 @@
 <template>
+    <div>
         <div class="form-control">
             <h4>
                 Búsqueda por 
@@ -12,7 +13,7 @@
                 </h5>
                 <div class="form-group row">
                     <div class="col-sm-4">
-                            <label for="buscar_por" class="col-form-label">Campo</label>
+                        <label for="buscar_por" class="col-form-label">Campo</label>
                         <select class="form-control" 
                                 name="buscar_por" 
                                 id="buscar_por" 
@@ -78,7 +79,8 @@
                     Añadir
                 </button>
             </div>
-        </div>        
+        </div>
+    </div>
 </template>
 
 <script>
