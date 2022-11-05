@@ -49,8 +49,8 @@
 </template>
 
 <script>
-const url_proyecto = 'http://localhost:8000/proyecto1/';
-//const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
+//const url_proyecto = 'http://localhost:8000/proyecto1/';
+const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
 
 export default{
 
@@ -199,12 +199,10 @@ export default{
 
         getUnidades(){
 
-            console.log('this.url_unidades',this.url_unidades)
             fetch(this.url_unidades)
             .then(respuesta=>respuesta.json())
             .then((datosRespuesta)=>{
                 this.unidades=datosRespuesta;
-                console.log('this.unidades',this.unidades)
                 this.unidades_filtrado = this.unidades;
             })
             .catch(console.log)

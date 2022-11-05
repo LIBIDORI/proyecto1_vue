@@ -3,23 +3,22 @@
         <Teleport to="body">
             <!-- use the modal component, pass in the prop -->
             <Filtrado_unidades v-show="isModalVisible" @close="closeModal">
-                <h3>Se han encontrado {{count}} unidades</h3>
+            <template #header>
+                <h3>Se han encontrado {{count}} puestos</h3>
+            </template>
             </Filtrado_unidades>
         </Teleport>
 
-        <div class="form-group">
-
-            <div class="card" v-show="isOpcionesBusquedaVisible">
+        <div class="form-group row">
+            <div class="card col-sm-3" v-show="isOpcionesBusquedaVisible">
                 <div class="card-header btn-toolbar justify-content-between align-items-center" role="group" aria-label="">
-                    <br/>
-                    <h4>
+                    <h4 class="align-center">
                         Opciones de búsqueda
                     </h4>
                     <button type="button" class="close btn btn-outline-success" @click="showOpcionesBusqueda" aria-label="Close">
                         <span aria-hidden="true">x</span>
                     </button>
                 </div>
-                <br>
                 <div class="form-group">
                     <div class="form-control">
                         <button type="button" class="btn btn-outline-success" @click="showModal" id="show-modal">Seleccionar unidades</button>
@@ -28,39 +27,61 @@
                     <Filtrado_general :camposDeBusqueda="camposDeBusqueda" @close="filtrar"></Filtrado_general>
                 </div>
             </div>
-
-            <div class="card">
+            <div class="card col-sm-9">
                 <div class="card-header btn-toolbar row justify-content-between" role="group" aria-label="">
                     <h3 class="col-sm-6">
-                        {{respuesta.count}} Entidades DIR3
+                        {{count}} Puestos
                     </h3>
                     <button type="button" class="btn btn-outline-success col-sm-1" v-show="!isOpcionesBusquedaVisible" @click="showOpcionesBusqueda" id="show-opciones-busqueda">Buscar</button>
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
-                            <tr class="text-center">
-                                <th class="col-sm-1" id="C_ID_UD_ORGANICA">Código</th>
-                                <th class="col-sm-5" id="C_DNM_UD_ORGANICA">Denominación</th>
-                                <th class="col-sm-2" id="NIF_CIF">NIF/CIF</th>
-                                <th class="col-sm-1" id="C_ID_NIVEL_ADMON">Nivel</th>
-                                <th class="col-sm-1" id="C_ID_TIPO_ENT_PUBLICA">Tipo</th>
-                                <th class="col-sm-3" id="N_NIVEL_JERARQUICO">Nivel Jerárquico</th>
+                            <tr>
+                                <th class="col-sm-5">
+                                    <p class="cabecera">Unidad</p>
+                                    <p class="cabecera">Ministerio</p>
+                                    <p class="cabecera">Centro Directivo</p>
+                                </th>
+                                <th class="col-sm-4">
+                                    <p class="cabecera">Código</p>
+                                    <p class="cabecera">Descripción</p>
+                                </th>
+                                <th class="col-sm-1">
+                                    <p class="cabecera">Nivel</p>
+                                    <p class="cabecera">C.Específico</p>
+                                    <p class="cabecera">Gr.-Subgr.</p>
+                                </th>
+                                <th class="col-sm-1">
+                                    <p class="cabecera">Estado</p>
+                                    <p class="cabecera">Provisión</p>
+                                </th>
                                 <th class="col-sm-1">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-    <!--                        <tr class="align-middle" v-for="unidad in unidades" :key="unidad.codigo" v-on:click="consultar(unidad.codigo)">-->
-                            <tr class="align-middle" v-for="entidad in respuesta.results" :key="entidad.C_ID_UD_ORGANICA">
-                                <td class="col-sm-1 text-center" id="C_ID_UD_ORGANICA">{{entidad.C_ID_UD_ORGANICA}}</td>
-                                <td class="col-sm-5" id="C_DNM_UD_ORGANICA">{{entidad.C_DNM_UD_ORGANICA}}</td>
-                                <td class="col-sm-2 text-center" id="NIF_CIF">{{entidad.NIF_CIF}}</td>
-                                <td class="col-sm-1 text-center" id="C_ID_NIVEL_ADMON">{{entidad.C_ID_NIVEL_ADMON}}</td>
-                                <td class="col-sm-1 text-center" id="C_ID_TIPO_ENT_PUBLICA">{{entidad.C_ID_TIPO_ENT_PUBLICA}}</td>
-                                <td class="col-sm-3 text-center" id="N_NIVEL_JERARQUICO">{{entidad.N_NIVEL_JERARQUICO}}</td>
-                                <td>
-                                    <div class="btn-group col-sm-1" role="group" aria-label="">
-                                        <router-link :to="{name:'Consultar_DIR3',params:{id:entidad.C_ID_UD_ORGANICA}}" class="btn btn-info">Consultar</router-link>
+                            <tr v-for="puesto in resultados" :key="puesto.codigo" class="align-middle">
+                                <td class="col-sm-5">
+                                    <p>{{puesto.unidad.denominacion}}</p>
+                                    <p>{{puesto.unidad.ministerio.denominacion}}</p>
+                                    <p>{{puesto.unidad.centro_directivo.denominacion}}</p>
+                                </td>
+                                <td class="col-sm-4">
+                                    <p>{{puesto.codigo}}</p>
+                                    <p>{{puesto.descripcion_larga}}</p>
+                                </td>
+                                <td class="col-sm-1">
+                                    <p>{{puesto.nivel}}</p>
+                                    <p>{{puesto.cespecifico}}</p>
+                                    <p>{{puesto.gruposubgrupo}}</p>
+                                </td>
+                                <td class="col-sm-1">
+                                    <p>{{puesto.estado}}</p>
+                                    <p>{{puesto.provis}}</p>
+                                </td>
+                                <td class="col-sm-1">
+                                    <div class="btn-group" role="group" aria-label="">
+                                        <router-link :to="{name:'Consultar_puesto',params:{id:puesto.codigo}}" class="btn btn-info">Consultar</router-link>
                                     </div>
                                 </td>
                             </tr>
@@ -97,19 +118,20 @@
                 </div>
                 <br>
             </div>
+            <div class="card col-sm-1"></div>
         </div>
     </div>
 </template>
 <script>
 import Filtrado_unidades from "./Filtrado_unidades.vue";
 import Filtrado_general from "./Filtrado_general.vue";
-import auth from "@/logic/auth";
 
-const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
 //const url_proyecto = 'http://localhost:8000/proyecto1/';
-//const url_proyecto = 'http://192.168.1.34:8000/proyecto1/';
+const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
 
 export default{
+
+    name: 'Listar_puestos',
 
     components: {
         Filtrado_unidades,
@@ -118,29 +140,27 @@ export default{
 
     data(){
         return{
-            respuesta: {
-                count:0,
-                next:'',
-                previous:'',
-                results:[],
-            },
             resultados:[],
             count:0,
             next:'',
             previous:'',
             currentPage: 1,
             numPaginas: 0,
+            //buscar_por: "",
+            valor_busqueda: "",
+            ordenar_por: "codigo",
             operador_busqueda:"__contains",
-//          url: url_proyecto + 'DIR3/?',
-            url: 'proyecto1/DIR3/?',
-//          url_base : url_proyecto + 'DIR3/?',
-            url_base : 'proyecto1/DIR3/?',
-//            listado: 'proyecto1/DIR3/?',
+            url: url_proyecto + 'puestos/?',
+            url_base: url_proyecto + 'puestos/?',
             isModalVisible: false,
             isOpcionesBusquedaVisible: false,
             camposDeBusqueda: [
-                {value: "C_ID_UD_ORGANICA", descripcion: "Código"},
-                {value: "C_DNM_UD_ORGANICA", descripcion: "Denominación"},
+                {value: "unidad", descripcion: "Unidad"},
+                {value: "codigo", descripcion: "Código"},
+                {value: "descripcion_larga", descripcion: "Descripción Larga"},
+                {value: "nivel", descripcion: "Nivel"},                                            
+                {value: "gruposubgrupo", descripcion: "Grupo/Subgrupo"},
+                {value: "estado",descripcion: "Estado"}
             ]
         }
     },
@@ -150,6 +170,7 @@ export default{
     },
 
     methods:{
+
         showOpcionesBusqueda(){
             this.isOpcionesBusquedaVisible = !this.isOpcionesBusquedaVisible;
         },
@@ -176,7 +197,7 @@ export default{
             }
 
             if (this.unidades_filtro['0']){
-                this.url += 'codigo=' + this.unidades_filtro + '&'
+                this.url += 'unidad=' + this.unidades_filtro + '&'
             }
 
             var index
@@ -210,69 +231,48 @@ export default{
                 this.url += this.buscar_por  + this.operador_busqueda + '=' + this.valor_busqueda + '&'
             }
 
-            console.log('this.url ', this.url)
-
             this.iraPagina(1)
         },
 
+//        consultar(id){
+//            this.$router.push('/consultar_puesto/'+id);
+//        },
+
         iraPagina(pagina){
             this.currentPage = pagina;
-//          this.obtener_datos_listado(this.url+'page='+this.currentPage);
-            this.obtener_datos_listado(this.url+'page='+pagina);
+            this.obtener_datos_listado(this.url+'page='+this.currentPage);
         },
 
-        async obtener_datos_listado(listado){
+        obtener_datos_listado(url){
 
-            try {
-                const respuesta = await auth.consulta(listado);
-                this.respuesta=respuesta.data;
-                this.numPaginas = Math.trunc(this.respuesta.count / 20)+1;
-            } 
-            catch (error) {
-                this.error=true;
-                this.error_msg=error;
-                if (error.response) {
-                  // The request was made and the server responded with a status code
-                  // that falls out of the range of 2xx
-                  this.error_msg=error.response.data['error'];
-                } else if (error.request) {
-                  // The request was made but no response was received
-                  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                  // http.ClientRequest in node.js
-                } else {
-                  // Something happened in setting up the request that triggered an Error
-                }
-                console.log(error.config);
-              }     
-
-        },
-
-        obtener_datos_listado2(url){
-
-            console.log ("fetch ", url)
             fetch(url)
             .then(respuesta=>respuesta.json())
             .then((datosRespuesta)=>{
-//                    console.log(datosRespuesta)
                 this.resultados=[]
                 if (typeof datosRespuesta.success==='undefined')
                 {
                     this.resultados=datosRespuesta.results;
-                    console.log("results: ", datosRespuesta.results)
-                    console.log("count: ", datosRespuesta.count)
-                    console.log("next: ", datosRespuesta.next)
-                    console.log("previous: ", datosRespuesta.previous)
                     this.count=datosRespuesta.count;
                     this.next=datosRespuesta.next;
                     this.previous=datosRespuesta.previous;
-                    this.numPaginas = Math.trunc(this.count / 20)+1;
-
+                    this.numPaginas = Math.trunc((this.count / 20)+1);
                 }
             })
             .catch(console.log)
         },
-
     }
-
 }
 </script>
+<style scoped>
+
+    tbody {
+        height: 480px;
+        overflow-y: auto;
+    }
+    .num_pagina{
+        text-align: right;
+    }
+    .cabecera{
+        margin:0px;
+    }
+</style>

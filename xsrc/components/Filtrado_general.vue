@@ -8,11 +8,11 @@
         <div v-for="criterio, index in criterios_de_busqueda" :key="index">
             <br>
             <div class="form-control">
+                <h5>
+                    Filtro {{index+1}} 
+                </h5>
                 <div class="form-group row">
-                    <div class="col-sm-1">
-                        <h5>Filtro {{index+1}} </h5>
-                    </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <label for="buscar_por" class="col-form-label">Campo</label>
                         <select class="form-control" 
                                 name="buscar_por" 
@@ -27,14 +27,13 @@
 
                         </select>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <label for="operador_busqueda" class="col-form-label">Operador</label>
                         <select class="form-control" 
                                 name="operador_busqueda" 
                                 id="operador_busqueda" 
                                 v-model="criterios_de_busqueda[index].operador_busqueda"
                                 v-on:change="comprobarCamposInformados">
-                            <option value=""></option>
                             <option value="=">Igual</option>
                             <option value="__icontains">Contiene</option>
                             <option value="__gt">Mayor que</option>
@@ -46,7 +45,7 @@
                             <option value="__isnull">Es nulo</option>
                         </select>
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-sm-4">
                         <label for="valor_busqueda" class="col-form-label">Valor</label>
                         <input  type="text" 
                                 class="form-control" 

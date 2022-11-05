@@ -7,9 +7,8 @@
             </Filtrado_unidades>
         </Teleport>
 
-        <div class="form-group">
-
-            <div class="card" v-show="isOpcionesBusquedaVisible">
+        <div class="form-group row">
+            <div class="card col-sm-3" v-show="isOpcionesBusquedaVisible">
                 <div class="card-header btn-toolbar justify-content-between align-items-center" role="group" aria-label="">
                     <br/>
                     <h4>
@@ -29,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card col-sm-9">
                 <div class="card-header btn-toolbar row justify-content-between" role="group" aria-label="">
                     <h3 class="col-sm-6">
                         {{respuesta.count}} Entidades DIR3
@@ -131,11 +130,9 @@ export default{
             currentPage: 1,
             numPaginas: 0,
             operador_busqueda:"__contains",
-//          url: url_proyecto + 'DIR3/?',
-            url: 'proyecto1/DIR3/?',
-//          url_base : url_proyecto + 'DIR3/?',
-            url_base : 'proyecto1/DIR3/?',
-//            listado: 'proyecto1/DIR3/?',
+//            url: url_proyecto + 'DIR3/?',
+            url_base : url_proyecto + 'DIR3/?',
+            listado: 'proyecto1/DIR3/?',
             isModalVisible: false,
             isOpcionesBusquedaVisible: false,
             camposDeBusqueda: [
@@ -146,7 +143,7 @@ export default{
     },
 
     created:function(){
-        this.obtener_datos_listado(this.url);
+        this.obtener_datos_listado(this.listado);
     },
 
     methods:{
@@ -210,15 +207,13 @@ export default{
                 this.url += this.buscar_por  + this.operador_busqueda + '=' + this.valor_busqueda + '&'
             }
 
-            console.log('this.url ', this.url)
-
             this.iraPagina(1)
         },
 
         iraPagina(pagina){
             this.currentPage = pagina;
 //          this.obtener_datos_listado(this.url+'page='+this.currentPage);
-            this.obtener_datos_listado(this.url+'page='+pagina);
+            this.obtener_datos_listado(this.listado+'page='+pagina);
         },
 
         async obtener_datos_listado(listado){
