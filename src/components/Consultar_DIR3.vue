@@ -72,15 +72,19 @@
         <div class="card">
             <div class="card-header text-uppercase text-center">
                 <div class="row row align-items-center">
-                    <div v-if="this.entidades_dependientes.length">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-5" v-if="this.entidades_dependientes.length">
                         <h5>Entidades Dependientes ({{entidades_dependientes.length}})</h5>
                     </div>
-                    <div v-if="!this.entidades_dependientes.length">
+                    <div class="col-sm-6" v-if="!this.entidades_dependientes.length">
                         <h5>No tiene Entidades Dependientes</h5>
+                    </div>
+                    <div class="btn-group col-sm-1 " role="group" aria-label="" v-if="this.entidades_dependientes.length">
+                        <button id="indicadorMostrar" type="button" v-on:click="mostrarEntidadesDependientes()" class="btn btn-primary h-100 w-100">{{this.textobotonMostrarEntidadesDependientes}}</button>
                     </div>
                 </div>
             </div>
-            <div class="card-body" v-if="this.entidades_dependientes.length">
+            <div class="card-body" v-show="isMostrarEntidadesDependientes" v-if="this.entidades_dependientes.length">
                 <table class="table">
                     <thead>
                         <tr>
@@ -113,47 +117,66 @@
         </div>
         <br>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header text-uppercase text-center">
                 <div class="row row align-items-center">
-                    <div class="col-sm-3" v-if="this.procesos_selectivos.length">
-                        Procesos selectivos ({{procesos_selectivos.length}})
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-5" v-if="this.procesos_selectivos.length">
+                        <h5>Procesos selectivos ({{procesos_selectivos.length}})</h5>
                     </div>
-                    <div class="col-sm-3" v-if="!this.procesos_selectivos.length">
-                        No tiene procesos selectivos
+                    <div class="col-sm-6" v-if="!this.procesos_selectivos.length">
+                        <h5>No tiene procesos selectivos</h5>
                     </div>
                     <div class="btn-group col-sm-1" role="group" aria-label="">
                         <button type="button" v-on:click="crearProcesoSelectivo(entidad.C_ID_UD_ORGANICA)" class="btn btn-primary">Nuevo</button>
                     </div>
+                    <div class="btn-group col-sm-1 " role="group" aria-label="" v-if="this.procesos_selectivos.length">
+                        <button id="indicadorMostrar" type="button" v-on:click="mostrarProcesosSelectivos()" class="btn btn-primary h-100 w-100">{{this.textobotonMostrarProcesosSelectivos}}</button>
+                    </div>
                 </div>
             </div>
-            <div class="card-body" v-if="this.procesos_selectivos.length">
+            <div class="card-body" v-show="isMostrarProcesosSelectivos" v-if="this.procesos_selectivos.length">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Cuerpo</th>
-                            <th>Escala</th>
-                            <th>Subescala</th>
-                            <th>Tipo de personal</th>
-                            <th>Gr./Subgr.</th>
-                            <th>Sistema</th>
-                            <th>Turno</th>
-                            <th>Número de puestos</th>
-                            <th>Fecha inicio</th>
-                            <th>Acciones</th>
+                            <th class="col-sm-4">
+                                <p class="cabecera">Cuerpo</p>
+                                <p class="cabecera">Escala / Subescala</p>
+                            </th>
+                            <th class="col-sm-2">
+                                <p class="cabecera">Tipo de personal</p>
+                                <p class="cabecera">Gr./Subgr.</p>
+                            </th>
+                            <th class="col-sm-2">
+                                <p class="cabecera">Sistema</p>
+                                <p class="cabecera">Turno</p>
+                            </th>
+                            <th class="col-sm-2">
+                                <p class="cabecera">Número de puestos</p>
+                                <p class="cabecera">Fecha de inicio</p>
+                            </th>
+                            <th class="col-sm-2">Acciones</th>
                         </tr>
                     </thead>
                     <tbody >
                         <tr class="align-middle" v-for="proceso_selectivo in procesos_selectivos" :key="proceso_selectivo.id">
-                            <td>{{proceso_selectivo.cuerpo}}</td>
-                            <td>{{proceso_selectivo.get_escala_display}}</td>
-                            <td>{{proceso_selectivo.get_subescala_display}}</td>
-                            <td>{{proceso_selectivo.tipo_de_personal}}</td>
-                            <td>{{proceso_selectivo.get_gruposubgrupo_display}}</td>
-                            <td>{{proceso_selectivo.get_sistema_display}}</td>
-                            <td>{{proceso_selectivo.get_turno_display}}</td>
-                            <td>{{proceso_selectivo.npuestos}}</td>
-                            <td>{{proceso_selectivo.finicio}}</td>
-                            <td>
+                            <td class="col-sm-4">
+                                <p>{{proceso_selectivo.cuerpo}}</p>
+                                <p  v-if="proceso_selectivo.escala">{{proceso_selectivo.escala.descripcion}} / {{proceso_selectivo.subescala.descripcion}}</p>
+                                <p  v-else></p>
+                            </td>
+                            <td class="col-sm-2">
+                                <p>{{proceso_selectivo.tipo_de_personal}}</p>
+                                <p>{{proceso_selectivo.gruposubgrupo.descripcion}}</p>
+                            </td>
+                            <td class="col-sm-2">
+                                <p>{{proceso_selectivo.sistema.descripcion}}</p>
+                                <p>{{proceso_selectivo.turno.descripcion}}</p>
+                            </td>
+                            <td class="col-sm-2">
+                                <p>{{proceso_selectivo.npuestos}}</p>
+                                <p>{{proceso_selectivo.finicio}}</p>
+                            </td>
+                            <td class="col-sm-2">
                                 <div class="btn-group" role="group" aria-label="">
                                     <button type="button" v-on:click="consultarProcesoSelectivo(proceso_selectivo.id)" class="btn btn-primary">Consultar</button>
                                 </div>
@@ -165,16 +188,20 @@
         </div>
         <br>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header text-uppercase text-center">
                 <div class="row row align-items-center">
-                    <div class="col-sm-3" v-if="this.procedimientos_provision.length">
-                        Procedimientos de provision ({{procedimientos_provision.length}})
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-5" v-if="this.procedimientos_provision.length">
+                        <h5>Procedimientos de provision ({{procedimientos_provision.length}})</h5>
                     </div>
-                    <div class="col-sm-3" v-if="!this.procedimientos_provision.length">
-                        No tiene procedimientos de provision
+                    <div class="col-sm-6" v-if="!this.procedimientos_provision.length">
+                        <h5>No tiene procedimientos de provision</h5>
                     </div>
                     <div class="btn-group col-sm-1" role="group" aria-label="">
                         <button type="button" v-on:click="crearProcedimientoProvision(entidad.C_ID_UD_ORGANICA)" class="btn btn-primary">Nuevo</button>
+                    </div>
+                    <div class="btn-group col-sm-1 " role="group" aria-label="" v-if="this.procedimientos_provision.length">
+                        <button id="indicadorMostrar" type="button" v-on:click="mostrarProcedimientosProvision()" class="btn btn-primary h-100 w-100">{{this.textobotonMostrarProcedimientosProvision}}</button>
                     </div>
                 </div>
             </div>
@@ -220,8 +247,12 @@
     </div>
 </template>
 <script>
+import auth from "@/logic/auth";
+
+const url_proyecto  = auth.consulta_ENDPOINT_PATH() + 'proyecto1/';
 //const url_proyecto = 'http://localhost:8000/proyecto1/';
-const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
+//const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
+//const url_proyecto = auth.ENDPOINT_PATH+'proyecto1/';
 
 export default{
 
@@ -237,11 +268,16 @@ export default{
                 procedimientos_provision:[],
                 url: url_proyecto + 'DIR3/',
                 url_base : url_proyecto + 'DIR3/',
+                isMostrarEntidadesDependientes: false,
+                isMostrarProcesosSelectivos: false,
+                textobotonMostrarEntidadesDependientes: "+",
+                textobotonMostrarProcesosSelectivos: "+",
             }
         },
 
         created:function(){
-            this.consultar(this.url+ this.entidad_a_consultar);
+
+            this.consultar(this.url+this.entidad_a_consultar);
         },
 
         beforeRouteUpdate(){
@@ -251,8 +287,24 @@ export default{
 
         methods:{
 
-            consultar(url){
-                fetch(url)
+            mostrarEntidadesDependientes() {
+                this.isMostrarEntidadesDependientes = !this.isMostrarEntidadesDependientes;
+                this.textobotonMostrarEntidadesDependientes = "-"
+                if (!this.isMostrarEntidadesDependientes){
+                    this.textobotonMostrarEntidadesDependientes = "+"
+                }
+            },
+
+            mostrarProcesosSelectivos() {
+                this.isMostrarProcesosSelectivos = !this.isMostrarProcesosSelectivos;
+                this.textobotonMostrarProcesosSelectivos = "-"
+                if (!this.isMostrarProcesosSelectivos){
+                    this.textobotonMostrarProcesosSelectivos = "+"
+                }
+            },
+
+            consultar(){
+                fetch(this.url+this.entidad_a_consultar)
                 .then(respuesta=>respuesta.json())
                 .then((datosRespuesta)=>{
                     this.entidad=datosRespuesta;
@@ -262,26 +314,27 @@ export default{
                 })
                 .catch(console.log)
 
-                fetch(url+'/entidades_dependientes')
+                console.log('1 ', this.url+this.entidad_a_consultar+'/entidades_dependientes')
+                console.log('2 ', this.url+'?C_ID_DEP_UD_SUPERIOR='+this.entidad_a_consultar)
+                //fetch(this.url+this.entidad_a_consultar+'/entidades_dependientes')
+                fetch(this.url+'?C_ID_DEP_UD_SUPERIOR='+this.entidad_a_consultar)
                 .then(respuesta=>respuesta.json())
                 .then((datosRespuesta)=>{
-                    this.entidades_dependientes=datosRespuesta;
+                    this.entidades_dependientes=datosRespuesta.results;
                 })
                 .catch(console.log)
 
-                fetch(url+'/procesos_selectivos')
+                fetch(this.url+this.entidad_a_consultar+'/procesos_selectivos')
                 .then(respuesta=>respuesta.json())
                 .then((datosRespuesta)=>{
                     this.procesos_selectivos=datosRespuesta;
                 })
                 .catch(console.log)
 
-                console.log('Fetch procedimientos provision ', url+'/procedimientos_provision')
-                fetch(url+'/procedimientos_provision')
+                fetch(this.url+this.entidad_a_consultar+'/procedimientos_provision')
                 .then(respuesta=>respuesta.json())
                 .then((datosRespuesta)=>{
                     this.procedimientos_provision=datosRespuesta;
-                console.log('Procedimientos provision ', this.procedimientos_provision)
                 })
                 .catch(console.log)
 
@@ -315,7 +368,15 @@ export default{
     a {
         padding-left:0;   
     }
-    .cabecera{
+    .cabecera {
         margin:0px;
+    }
+    #indicadorMostrar {
+        height:100%;
+        width:100%;
+        font-size: 25px;
+        font-weight:bold;
+        color: white;
+        padding: 0;
     }
 </style>

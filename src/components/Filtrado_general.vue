@@ -22,9 +22,8 @@
                                 v-on:change="comprobarCamposInformados">
                             <option value=""></option>
                             <option v-for="campo in camposDeBusqueda" :key="campo['value']" v-bind:value="campo['value']">
-                                    {{campo['descripcion']}}
+                                {{campo['descripcion']}}
                             </option>
-
                         </select>
                     </div>
                     <div class="col-sm-2">

@@ -2,10 +2,10 @@
 
     <div class="container">
         <div class="card">
-            <div class="card-header">
-                <div class="col-sm-3">
+            <div class="card-header text-uppercase text-center">
+                <h5>
                     Consulta de Proceso Selectivo
-                </div>
+                </h5>
             </div>
             <div v-if="proceso_selectivo.entidad" class="card-body">
                 <table class="table">
@@ -52,7 +52,7 @@
             </div>
             <div class="card-footer">
                 <div class="btn-toolbar justify-content-center" role="group" aria-label="">
-                    <router-link :to="{name:'Consultar_DIR3'}" class="btn btn-warning col-sm-2">Cancelar</router-link>
+                    <button class="btn btn-warning col-sm-2" @click="$router.go(-1)">Cancelar</button>
                     <p class="col-sm-3"></p>
                     <router-link :to="{name:'Editar_proceso_selectivo'}" class="btn btn-success col-sm-2">Editar</router-link>
                 </div>
