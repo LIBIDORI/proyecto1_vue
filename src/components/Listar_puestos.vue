@@ -125,9 +125,11 @@
 <script>
 import Filtrado_unidades from "./Filtrado_unidades.vue";
 import Filtrado_general from "./Filtrado_general.vue";
+import auth from "@/logic/auth";
 
+const url_proyecto  = auth.consulta_ENDPOINT_PATH() + 'proyecto1/';
 //const url_proyecto = 'http://localhost:8000/proyecto1/';
-const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
+//const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
 
 export default{
 

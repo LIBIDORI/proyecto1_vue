@@ -119,7 +119,10 @@
     </div>
 </template>
 <script>
-const url_proyecto = 'http://localhost:8000/proyecto1/';
+import auth from "@/logic/auth";
+
+const url_proyecto  = auth.consulta_ENDPOINT_PATH() + 'proyecto1/';
+//const url_proyecto = 'http://localhost:8000/proyecto1/';
 //const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
 export default{
     data(){
@@ -158,7 +161,6 @@ export default{
             url_DIR3: url_proyecto + 'DIR3/',
             url_codigos_por_tabla: url_proyecto + 'codigos/tabla/',
             url : url_proyecto + 'procesos_selectivos/',
-            opciones:[],
             codigos: {
                 'escala' : [],
                 'subescala' : [],

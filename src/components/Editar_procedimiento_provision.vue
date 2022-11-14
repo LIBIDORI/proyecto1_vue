@@ -55,8 +55,12 @@
     </div>
 </template>
 <script>
+import auth from "@/logic/auth";
+
+const url_proyecto  = auth.consulta_ENDPOINT_PATH() + 'proyecto1/';
 //const url_proyecto = 'http://localhost:8000/proyecto1/';
-const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
+//const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
+
 export default{
 
     data(){

@@ -26,8 +26,8 @@
                         <th class="col-sm-2">Tipo de personal</th>
                     </tr>
                     <tr>
-                        <td class="col-sm-2">{{this.proceso_selectivo.get_escala_display}}</td>
-                        <td class="col-sm-2">{{this.proceso_selectivo.get_subescala_display}}</td>
+                        <td class="col-sm-2">{{this.proceso_selectivo.escala.descripcion}}</td>
+                        <td class="col-sm-2">{{this.proceso_selectivo.subescala.descripcion}}</td>
                         <td class="col-sm-2">{{this.proceso_selectivo.clase}}</td>
                         <td class="col-sm-2">{{this.proceso_selectivo.categoria}}</td>
                         <td class="col-sm-2">{{this.proceso_selectivo.tipo_de_personal}}</td>
@@ -41,9 +41,9 @@
                         <th class="col-sm-2">Fecha inicio</th>
                     </tr>
                     <tr>
-                        <td class="col-sm-2">{{this.proceso_selectivo.get_gruposubgrupo_display}}</td>
-                        <td class="col-sm-2">{{this.proceso_selectivo.get_sistema_display}}</td>
-                        <td class="col-sm-2">{{this.proceso_selectivo.get_turno_display}}</td>
+                        <td class="col-sm-2">{{this.proceso_selectivo.gruposubgrupo.descripcion}}</td>
+                        <td class="col-sm-2">{{this.proceso_selectivo.sistema.descripcion}}</td>
+                        <td class="col-sm-2">{{this.proceso_selectivo.turno.descripcion}}</td>
                         <td class="col-sm-2">{{this.proceso_selectivo.npuestos}}</td>
                         <td class="col-sm-2">{{this.proceso_selectivo.finicio}}</td>
                     </tr>
@@ -111,8 +111,11 @@
 </template>
 
 <script>
+import auth from "@/logic/auth";
+
+const url_proyecto  = auth.consulta_ENDPOINT_PATH() + 'proyecto1/';
 //const url_proyecto = 'http://localhost:8000/proyecto1/';
-const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
+//const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
 
 export default{
     data(){
@@ -139,18 +142,13 @@ export default{
                 },
                 'cuerpo': null,
                 'escala': "",
-                'get_escala_display': "",
                 'subescala': "",
-                'get_subescala_display': "",
                 'clase': "",
                 'categoria': "",
                 'tipo_de_personal': "",
                 'gruposubgrupo': "",
-                'get_gruposubgrupo_display': "",
                 'sistema': "",
-                'get_sistema_display': "",
                 'turno': "",
-                'get_turno_display': "",
                 'npuestos': null,
                 'finicio': null
             },

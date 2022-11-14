@@ -28,18 +28,18 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <label for="escala" class="control-label">Escala</label>
-                                <select class="form-control" name="escala" id="escala" v-model="proceso_selectivo.escala">
-                                    <option v-for="opcion in escala_opciones" :key="opcion.valor" v-bind:value="opcion.valor">
-                                        {{ opcion.texto }}
+                                <select class="form-control" name="escala" id="escala" v-model="proceso_selectivo.escala.codigo">
+                                    <option v-for="opcion in codigos['escala']" :key="opcion.codigo" v-bind:value="opcion.codigo">
+                                        {{ opcion.descripcion }}
                                     </option>
                                 </select> 
                                 <small id="helpId" class="form-text text-danger" v-if="errores['escala'].lenght != 0">{{errores['escala'][0]}}</small>
                             </div>
                             <div class="col-sm-2">
                                 <label for="subescala" class="control-label">Subescala</label>
-                                <select class="form-control" name="subescala" id="subescala" v-model="proceso_selectivo.subescala">
-                                    <option v-for="opcion in subescala_opciones" :key="opcion.valor" v-bind:value="opcion.valor">
-                                        {{ opcion.texto }}
+                                <select class="form-control" name="subescala" id="subescala" v-model="proceso_selectivo.subescala.codigo">
+                                    <option v-for="opcion in codigos['subescala']" :key="opcion.codigo" v-bind:value="opcion.codigo">
+                                        {{ opcion.descripcion }}
                                     </option>
                                 </select> 
                                 <small id="helpId" class="form-text text-danger" v-if="errores['subescala'].lenght != 0">{{errores['subescala'][0]}}</small>
@@ -66,27 +66,27 @@
                         <div class="row">
                             <div class="col-sm-1">
                                 <label for="gruposubgrupo" class="control-label">Gr. Sgr.</label>
-                                <select class="form-control" name="gruposubgrupo" id="gruposubgrupo" v-model="proceso_selectivo.gruposubgrupo">
-                                    <option v-for="opcion in gruposubgrupo_opciones" :key="opcion.valor" v-bind:value="opcion.valor">
-                                        {{ opcion.texto }}
+                                <select class="form-control" name="gruposubgrupo" id="gruposubgrupo" v-model="proceso_selectivo.gruposubgrupo.codigo">
+                                    <option v-for="opcion in codigos['gruposubgrupo']" :key="opcion.codigo" v-bind:value="opcion.codigo">
+                                        {{ opcion.descripcion }}
                                     </option>
                                 </select> 
                                 <small id="helpId" class="form-text text-danger" v-if="errores['gruposubgrupo'].lenght != 0">{{errores['gruposubgrupo'][0]}}</small>
                             </div>
                             <div class="col-sm-2">
                                 <label for="sistema" class="control-label">Sistema</label>
-                                <select class="form-control" name="sistema" id="sistema" v-model="proceso_selectivo.sistema">
-                                    <option v-for="opcion in sistema_opciones" :key="opcion.valor" v-bind:value="opcion.valor">
-                                        {{ opcion.texto }}
+                                <select class="form-control" name="sistema" id="sistema" v-model="proceso_selectivo.sistema.codigo">
+                                    <option v-for="opcion in codigos['sistema']" :key="opcion.codigo" v-bind:value="opcion.codigo">
+                                        {{ opcion.descripcion }}
                                     </option>
                                 </select> 
                                 <small id="helpId" class="form-text text-danger" v-if="errores['sistema'].lenght != 0">{{errores['sistema'][0]}}</small>
                             </div>
                             <div class="col-sm-2">
                                 <label for="turno" class="control-label">Turno</label>
-                                <select class="form-control" name="turno" id="turno" v-model="proceso_selectivo.turno">
-                                    <option v-for="opcion in turno_opciones" :key="opcion.valor" v-bind:value="opcion.valor">
-                                        {{ opcion.texto }}
+                                <select class="form-control" name="turno" id="turno" v-model="proceso_selectivo.turno.codigo">
+                                    <option v-for="opcion in codigos['turno']" :key="opcion.codigo" v-bind:value="opcion.codigo">
+                                        {{ opcion.descripcion }}
                                     </option>
                                 </select> 
                                 <small id="helpId" class="form-text text-danger" v-if="errores['turno'].lenght != 0">{{errores['turno'][0]}}</small>
@@ -120,8 +120,11 @@
     </div>
 </template>
 <script>
+import auth from "@/logic/auth";
+
+const url_proyecto  = auth.consulta_ENDPOINT_PATH() + 'proyecto1/';
 //const url_proyecto = 'http://localhost:8000/proyecto1/';
-const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
+//const url_proyecto = 'https://proyecto1libi.herokuapp.com/proyecto1/';
 export default{
 
     data(){
@@ -148,54 +151,27 @@ export default{
                 },
                 'cuerpo': null,
                 'escala': "",
-                'get_escala_display': "",
                 'subescala': "",
-                'get_subescala_display': "",
                 'clase': "",
                 'categoria': "",
                 'tipo_de_personal': "",
                 'gruposubgrupo': "",
-                'get_gruposubgrupo_display': "",
                 'sistema': "",
-                'get_sistema_display': "",
                 'turno': "",
-                'get_turno_display': "",
                 'npuestos': null,
                 'finicio': "",
                 'web': null
             },
+            url_DIR3: url_proyecto + 'DIR3/',
+            url_codigos_por_tabla: url_proyecto + 'codigos/tabla/',
             url : url_proyecto + 'procesos_selectivos/',
-            escala_opciones:[
-                {valor: '01', texto:'Administración General'},
-                {valor: '02', texto:'Administración Especial'},
-            ],
-            subescala_opciones:[
-                {valor: '0101', texto:'Técnica'},
-                {valor: '0102', texto:'De gestión'},
-                {valor: '0103', texto:'Administrativa'},
-                {valor: '0104', texto:'Auxiliar'},
-                {valor: '0105', texto:'Subalterna'},
-                {valor: '0201', texto:'Técnica'},
-                {valor: '0202', texto:'Servicios especiales'},
-            ],
-            gruposubgrupo_opciones:[
-                {valor: '1', texto:'A1'},
-                {valor: '2', texto:'A2'},
-                {valor: '3', texto:'B'},
-                {valor: '4', texto:'C1'},
-                {valor: '5', texto:'C2'},
-            ],
-            sistema_opciones:[
-                {valor: '1', texto:'Oposición'},
-                {valor: '2', texto:'Concurso-oposición'},
-                {valor: '3', texto:'Concurso'},
-            ],
-            turno_opciones:[
-                {valor: '1', texto:'Libre'},
-                {valor: '2', texto:'Promoción interna'},
-                {valor: '3', texto:'Estabilización'},
-                {valor: '4', texto:'Movilidad sin ascenso'},
-            ],
+            codigos: {
+                'escala' : [],
+                'subescala' : [],
+                'gruposubgrupo' : [],
+                'sistema' : [],
+                'turno' : [],
+            },
             errores: {
                 'entidad': [],
                 'cuerpo': [],
@@ -212,6 +188,14 @@ export default{
                 'web':[],
             },
         }       
+    },
+
+    mounted(){
+        var item;
+        for (item in this.codigos){
+            console.log('item ', item)
+            this.get_codigos(item);
+        }
     },
 
     created:function(){
@@ -248,19 +232,31 @@ export default{
             })
             .catch(console.log)
         },
-        
+
+        get_codigos(campo){
+
+            console.log(this.url_codigos_por_tabla+campo);
+
+            fetch(this.url_codigos_por_tabla+campo)
+            .then(respuesta=>respuesta.json())
+            .then(datosRespuesta=>{
+                this.codigos[campo]=datosRespuesta;
+            })
+            .catch(console.log)
+        },
+
         actualizar(){
             var datosEnviar={id: this.proceso_selectivo.id,
                             entidad: this.proceso_selectivo.entidad.id,
                             cuerpo: this.proceso_selectivo.cuerpo,
-                            escala: this.proceso_selectivo.escala,
-                            subescala: this.proceso_selectivo.subescala,
+                            escala: this.proceso_selectivo.escala.codigo,
+                            subescala: this.proceso_selectivo.subescala.codigo,
                             clase: this.proceso_selectivo.clase,
                             categoria: this.proceso_selectivo.categoria,
                             tipo_de_personal: this.proceso_selectivo.tipo_de_personal,
-                            gruposubgrupo: this.proceso_selectivo.gruposubgrupo,
-                            sistema: this.proceso_selectivo.sistema,
-                            turno: this.proceso_selectivo.turno,
+                            gruposubgrupo: this.proceso_selectivo.gruposubgrupo.codigo,
+                            sistema: this.proceso_selectivo.sistema.codigo,
+                            turno: this.proceso_selectivo.turno.codigo,
                             npuestos: this.proceso_selectivo.npuestos,
                             finicio: this.proceso_selectivo.finicio,
                             web: this.proceso_selectivo.web}
